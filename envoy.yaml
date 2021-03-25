@@ -1,0 +1,64 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: jwt-verification
+  namespace: default
+spec:
+  workloadSelector:
+    labels:
+      auth: enabled
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.ext_authz
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+            http_service:
+              server_uri:
+                uri: http://auth-verify.default.svc.cluster.local:3000
+                cluster: outbound|3000||http://auth-verify.default.svc.cluster.local
+                timeout: 5s
+
+#
+#    - applyTo: HTTP_FILTER
+#      match:
+#        context: SIDECAR_INBOUND
+#        listener:
+#          filterChain:
+#            filter:
+#              name: "envoy.filters.network.http_connection_manager"
+#      patch:
+#        operation: ADD
+#        value:
+#          name: envoy.filters.http.ext_authz
+#          typed_config:
+#            "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+#            http_service:
+#              serverUri: http://auth-verify.dev.svc.cluster.local:3000
+
+
+#
+  # filters:
+  #    - insertPosition:
+  #        index: FIRST
+  #      filterConfig:
+  #        httpService:
+  #          # pathPrefix: "/"
+  #          serverUri:
+  #            cluster: istio-jwt-proxy
+  #            timeout: 2.000s
+  #            uri: http://istio-jwt-proxy.dev.svc.cluster.local:3000
+  #      filterName: envoy.ext_authz
+  #      filterType: HTTP
+  #      listenerMatch:
+  #        portNumber: 80
+  #        listenerProtocol: HTTP
+  #        listenerType: GATEWAY
