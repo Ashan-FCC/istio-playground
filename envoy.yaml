@@ -15,17 +15,22 @@ spec:
           filterChain:
             filter:
               name: "envoy.filters.network.http_connection_manager"
+              subFilter:
+                name: "envoy.filters.http.router"
       patch:
         operation: INSERT_BEFORE
+        filterClass: STATS
         value:
           name: envoy.filters.http.ext_authz
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
             http_service:
               server_uri:
-                uri: http://auth-verify.default.svc.cluster.local:3000
-                cluster: outbound|3000||http://auth-verify.default.svc.cluster.local
+                uri: http://auth-verify.default.svc.cluster.local:3000/auth
+                cluster: auth-verify.default.svc.cluster.local
                 timeout: 5s
+            status_on_error:
+              code: FailedDependency
 
 #
 #    - applyTo: HTTP_FILTER

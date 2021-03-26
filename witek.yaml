@@ -1,0 +1,39 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: auth-verify
+  namespace: default
+spec:
+  hosts:
+    - auth-verify.default.svc.cluster.local
+  http:
+    - route:
+        - destination:
+            host: auth-verify.default.svc.cluster.local
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: authentication-filter
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+    filters:
+      - insertPosition:
+          index: FIRST
+        filterConfig:
+          httpService:
+            # pathPrefix: "/"
+            serverUri:
+              cluster: outbound|3000||auth-verify.default.svc.cluster.local
+              timeout: 5.000s
+              uri: http://auth-verify.default.svc.cluster.local:3000
+        filterName: envoy.ext_authz
+        filterType: HTTP
+        listenerMatch:
+          portNumber: 80
+          listenerProtocol: HTTP
+          listenerType: GATEWAY
+---
