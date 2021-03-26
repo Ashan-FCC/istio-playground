@@ -1,0 +1,6 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: auth-verify-destination-rule
+spec:
+  host: auth-verify.default.svc.cluster.local
