@@ -8,6 +8,10 @@ const validHeader = process.env.VALID || 'foo'
 app.use((req, res) => {
     console.log('Request arrive at auth function!')
     const header = req.headers['auth']
+    if (!header) {
+        res.setHeader('x-authenticated', 1)
+        return res.status(200).send('free passing through')
+    }
     if (header === validHeader) {
         res.setHeader('x-authenticated', 1)
         return res.status(200).send('authenticated')

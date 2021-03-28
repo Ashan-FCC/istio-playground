@@ -37,6 +37,7 @@ spec:
               authorization_response:
                 allowed_upstream_headers:
                   patterns:
+                    - exact: "x-authenticated"
                     - exact: "x-tw-authenticated"
                     - exact: "x-tw-workspace-id"
                     - exact: "x-tw-user-id"
