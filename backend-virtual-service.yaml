@@ -3,6 +3,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: backend-vs
+  namespace: dev
 spec:
   hosts:
     - "*"
@@ -16,7 +17,7 @@ spec:
             exact: /api
       route:
         - destination:
-            host: backend.default.svc.cluster.local
+            host: backend.dev.svc.cluster.local
             port:
               number: 4000
 ---

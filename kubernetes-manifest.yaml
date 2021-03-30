@@ -126,7 +126,7 @@ apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: auth-verify
-  namespace: default
+  namespace: dev
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

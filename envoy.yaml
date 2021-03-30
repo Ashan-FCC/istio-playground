@@ -25,8 +25,8 @@ spec:
             "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
             http_service:
               server_uri:
-                uri: http://auth-verify.default.svc.cluster.local:3000
-                cluster: outbound|3000||auth-verify.default.svc.cluster.local
+                uri: http://auth-verify.dev.svc.cluster.local:3000
+                cluster: outbound|3000||auth-verify.dev.svc.cluster.local
                 timeout: 2.5s
               authorization_request:
                 allowed_headers:
