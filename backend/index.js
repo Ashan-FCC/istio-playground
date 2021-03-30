@@ -1,3 +1,5 @@
+const { logger } = require('./logger')
+
 const express = require('express')
 
 const app = express()
@@ -5,20 +7,29 @@ const app = express()
 const port = 4000 || process.env.PORT
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.send(req.headers)
 })
 
 app.get('/api', (req, res) => {
-    console.log(req.headers)
-    if (req.headers['x-authenticated']){
-        return res.send('Woohoo')
+    const log = logger(req)
+    log('Request arrive at /api function!')
+    log(`Req path: ${req.path}`)
+    log(`Req headers: ${JSON.stringify(req.headers)}`)
+    if (req.headers['no-auth']){
+        log('No auth required')
+        return res.send(req.headers)
     }
+
+    if (req.headers['authenticated']){
+        log('Authenticated request')
+        return res.send(req.headers)
+    }
+    log('failed to auth')
     return res.status(401).send('Aint no way')
 })
 
-app.use((req, res, next) => {
-    console.log(`backend couldnt handle this route: ${req.path}`)
-    next()
+app.get('/healthcheck', (req, res) => {
+    return res.status(200).send('ok')
 })
 
 app.listen(port, () => {
