@@ -1,5 +1,5 @@
 ## How to
-Assumes you have a minkube running on your local machine.
+Assumes you have a minikube running on your local machine.
 1. Follow this guide until Deploy the Sample application section https://istio.io/latest/docs/setup/getting-started/
 2. Create dev namespace `kubectl apply -f dev-ns.json`
 3. Deploy the apps `kubectl apply -f kubernetes-manifest.yaml`
