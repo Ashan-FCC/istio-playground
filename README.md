@@ -6,7 +6,9 @@ Assumes you have a minikube running on your local machine.
 4. Create the gateway `kubectl apply -f gateways.yaml`
 5. Create the virtual service `kubectl apply -f backend-virtual-service.yaml`
 6. Create the envoy filter `kubectl apply -f envoy.yaml`
-7. Follow the guide until `Next Steps` https://istio.io/latest/docs/setup/getting-started/#determining-the-ingress-ip-and-ports
+7. Make sure there are no issues with the configuration by running `istioctl analyze`
+   ✔ No validation issues found when analyzing namespace: default.
+8. Follow the guide `Determine the ingress IP and ports` until `Next Steps` https://istio.io/latest/docs/setup/getting-started/#determining-the-ingress-ip-and-ports
 
 So it seems we don't need to define a virtual service for the auth-verify application
 as long as we don't have to expose it to outside traffic
