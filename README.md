@@ -1,3 +1,4 @@
+[![Board Status](https://dev.azure.com/nawinperera/cf0f20a3-471e-4056-bed2-06998e6ebe55/517070ce-399d-42c7-af33-a11bb4c03e9a/_apis/work/boardbadge/6e051ca8-e109-4fd4-9cba-0d91c6fa3bfc)](https://dev.azure.com/nawinperera/cf0f20a3-471e-4056-bed2-06998e6ebe55/_boards/board/t/517070ce-399d-42c7-af33-a11bb4c03e9a/Microsoft.RequirementCategory)
 ## How to
 Assumes you have a minikube running on your local machine.
 1. Follow this guide until Deploy the Sample application section https://istio.io/latest/docs/setup/getting-started/
